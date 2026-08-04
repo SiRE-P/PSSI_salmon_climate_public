@@ -1,3 +1,5 @@
+###Main script to prepare data to run the stan model "sockeye_climate_model.stan" and assess model convergence###
+
 library(tidyverse)
 library(janitor)
 library(cmdstanr)

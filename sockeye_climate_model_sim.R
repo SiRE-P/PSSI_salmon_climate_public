@@ -1,3 +1,5 @@
+###This script prepares the siumlated data to run the adapted stan model "sockeye_climate_model_sim.stan" to assess model performance and parameter recovery###
+
 library(tidyverse)
 library(janitor)
 library(cmdstanr)

@@ -14,22 +14,18 @@ library(boot)
 # library(posterior)
 
 # --- NOTES for running projection model --- #
-
 # Use Median spawner abundance from 1991-2020 period for projections
 # standardized hindcast data is for the relative to period across the data that is available (~1981-2024?)
 # projection data is standardized to the original hindcast data
-# Use "..._complete" from model output data, includes raw and imputed data
 # Use parameter coefficients from model output 
 # run each year of 1991-2020 for base period to compare to
-# Then use Jan's standardized projection data to run future scenario period 
-
+# Then use standardized projection data to run future scenario period 
 # Use coefficients from model output each year of base scenario (1991-2020) and projection period (2041-2070)
 # keep Osoyoos and wenatchee discharge data set to no effect (zero)
-
 # uncertainty:
 #  parameter - interations from model (e.g. b_ coefficients for env effects)
 #  annual variability
-#  scenario - SSP4.5 v SSP 8.5
+#  scenario - SSP4.5 
 
 
 ##### FUNCTIONS #####

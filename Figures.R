@@ -1,3 +1,5 @@
+###Main script to process model fit data and produce all manuscript figures###
+
 library(ncdf4)
 library(sf)
 library(ggplot2)

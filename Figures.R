@@ -124,7 +124,7 @@ ggplot()+
   labs(title=NULL,colour="Watersheds",fill="Watersheds",x=NULL,y=NULL)+theme_classic(base_size=14)+theme(legend.position=c(0.1,0.3)) 
   
 #Env Data####
-env_dat <- read.csv("./data/env_data.csv") #PCIC observation driven data
+env_dat <- read.csv("./data/env_data.csv")
 
 #relabel "Babine Lake" to "... (spawning channel)" to match smo_dat naming
 #env_dat$cu[env_dat$cu=="Babine Lake"] = "Babine Lake (spawning channel)"
@@ -236,43 +236,43 @@ TEMPwoo<-spread_draws(fit, TEMPwoo_complete[y])%>%group_by(y)%>%summarize(value=
 TEMPsoo<-spread_draws(fit, TEMPsoo_complete[y])%>%group_by(y)%>%summarize(value=mean(TEMPsoo_complete,na.rm=TRUE))%>%mutate(year=y+(year_start-1),openocean="Open Ocean")%>%ungroup()%>%select(openocean, year, value)
 
 ##Add projection data, and empty space to seperate historic and projection
-FTwrep <- read.csv("C:/Users/FINKEJ/Documents/Climate_Data/projection_data/FTwre_projected245_2041_2070.csv")
+FTwrep <- read.csv("./data/FTwre_projected245_2041_2070.csv")
 FTwrep <- FTwrep|>select(-X) |> gather(key = pop, value = value, Babine.Lake:Wenatchee.Lake) |> 
   #mutate(value_scaled = (value - mean(env_select2$FTwre, na.rm = TRUE)) / sd(env_select2$FTwre, na.rm = TRUE)) |>
   mutate(pop = str_trim(str_remove(pop, "\\b.[Ll]ake\\b"))) |> mutate(pop = ifelse(pop == "Great.Central", "Great Central", pop)) |>
   group_by(pop) |> summarize(value = mean(value, na.rm = TRUE)) |> mutate(year = factor("2041-2070"), pop = factor(pop,levels=levelxs)) 
 FTwre2 <- rbind(FTwre|>select(pop,value,year)|> mutate(year=factor(year, levels=as.character(1981:2024))),data.frame(pop=FTwrep$pop,value=NA,year="2025-2040"),FTwrep) |> mutate(value_scaled=(value-mean(value,na.rm=TRUE))/sd(value,na.rm=TRUE)) |> select(pop, year, value,value_scaled)
 
-FTsrep <- read.csv("C:/Users/FINKEJ/Documents/Climate_Data/projection_data/FTsre_projected245_2041_2070.csv")
+FTsrep <- read.csv("./data/FTsre_projected245_2041_2070.csv")
 FTsrep <- FTsrep|>select(-X) |> gather(key = pop, value = value, Babine.Lake:Wenatchee.Lake) |> 
   mutate(pop = str_trim(str_remove(pop, "\\b.[Ll]ake\\b"))) |> mutate(pop = ifelse(pop == "Great.Central", "Great Central", pop)) |>
   group_by(pop) |> summarize(value = mean(value, na.rm = TRUE)) |> mutate(year = factor("2041-2070"), pop = factor(pop,levels=levelxs)) 
 FTsre2 <- rbind(FTsre|>select(pop,value,year)|>mutate(year=factor(year, levels=as.character(1981:2024))),data.frame(pop=FTsrep$pop,value=NA,year="2025-2040"),FTsrep) |> mutate(value_scaled=(value-mean(value,na.rm=TRUE))/sd(value,na.rm=TRUE)) |> select(pop, year, value,value_scaled)
 
-TEMPcsp <- read.csv("C:/Users/FINKEJ/Documents/Climate_Data/projection_data/TEMPcs_projected245_2041_2070.csv")
+TEMPcsp <- read.csv("./data/TEMPcs_projected245_2041_2070.csv")
 TEMPcsp <- TEMPcsp|>select(-X) |> gather(key = watershed, value = value, Fraser:Taku) |> 
   group_by(watershed) |> summarize(value = mean(value, na.rm = TRUE)) |> mutate(year = factor("2041-2070"), watershed = factor(watershed,levels=major_watershed)) 
 TEMPcs2 <- rbind(TEMPcs|>select(watershed,value,year)|>mutate(year=factor(year, levels=as.character(1981:2024))),data.frame(watershed=TEMPcsp$watershed,value=NA,year="2025-2040"),TEMPcsp)
 
-MLDcsp <- read.csv("C:/Users/FINKEJ/Documents/Climate_Data/projection_data/MLDcs_projected245_2041_2070.csv")
+MLDcsp <- read.csv("./data/MLDcs_projected245_2041_2070.csv")
 MLDcsp <- MLDcsp|>select(-X) |> gather(key = watershed, value = value, Fraser:Taku) |> 
   group_by(watershed) |> summarize(value = mean(value, na.rm = TRUE)) |> mutate(year = factor("2041-2070"), watershed = factor(watershed,levels=major_watershed)) 
 MLDcs2 <- rbind(MLDcs|>select(watershed,value,year)|>mutate(year=factor(year, levels=as.character(1981:2024))),data.frame(watershed=MLDcsp$watershed,value=NA,year="2025-2040"),MLDcsp)
 
-TEMPoop <- read.csv("C:/Users/FINKEJ/Documents/Climate_Data/projection_data/TEMP_OpenOcean_projected245_2041_2070.csv")
+TEMPoop <- read.csv("./data/TEMP_OpenOcean_projected245_2041_2070.csv")
 TEMPwoop <- TEMPoop|>select(-year, TEMPwoo) |> summarize(value = mean(TEMPwoo, na.rm = TRUE)) |> mutate(year = factor("2041-2070"), openocean="Open Ocean") 
 TEMPwoo2 <- rbind(TEMPwoo|>select(value,year,openocean)|>mutate(year=factor(year, levels=as.character(1981:2024))),data.frame(openocean=TEMPwoop$openocean,value=NA,year="2025-2040"),TEMPwoop)
 
 TEMPsoop <- TEMPoop|>select(-year, TEMPsoo) |> summarize(value = mean(TEMPsoo, na.rm = TRUE)) |> mutate(year = factor("2041-2070"), openocean="Open Ocean") 
 TEMPsoo2 <- rbind(TEMPsoo|>select(value,year,openocean)|>mutate(year=factor(year, levels=as.character(1981:2024))),data.frame(openocean=TEMPsoop$openocean,value=NA,year="2025-2040"),TEMPsoop)
 
-FTump <- read.csv("C:/Users/FINKEJ/Documents/Climate_Data/projection_data/FTum_projected245_2041_2070.csv")
+FTump <- read.csv("./data/FTum_projected245_2041_2070.csv")
 FTump <- FTump|>select(-X) |> gather(key = pop, value = value, Osoyoos.Lake:Tatsamenie.Lake) |> 
   mutate(pop = str_trim(str_remove(pop, "\\b.[Ll]ake\\b"))) |> mutate(pop = ifelse(pop == "Great.Central", "Great Central", pop)) |>
   group_by(pop) |> summarize(value = mean(value, na.rm = TRUE)) |> mutate(year = factor("2041-2070"), pop = factor(pop,levels=levelxs)) 
 FTum2 <- rbind(FTum|>select(pop,value,year)|>mutate(year=factor(year, levels=as.character(1981:2024))),data.frame(pop=FTump$pop,value=NA,year="2025-2040"),FTump)
 
-FDump <- read.csv("C:/Users/FINKEJ/Documents/Climate_Data/projection_data/FDum_projected245_2041_2070.csv")
+FDump <- read.csv("./data/FDum_projected245_2041_2070.csv")
 FDump <- FDump|>select(-X) |> gather(key = pop, value = value, Osoyoos.Lake:Tatsamenie.Lake) |> 
   mutate(pop = str_trim(str_remove(pop, "\\b.[Ll]ake\\b"))) |> mutate(pop = ifelse(pop == "Great.Central", "Great Central", pop)) |>
   group_by(pop) |> summarize(value = mean(value, na.rm = TRUE)) |> mutate(year = factor("2041-2070"), pop = factor(pop,levels=levelxs)) 

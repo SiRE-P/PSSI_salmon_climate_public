@@ -1,13 +1,5 @@
-# ================================================================
-# Projection code for v8 of multi-stage salmon model  
-
-###Density dependent b_returns for the marine stage has been removed!!!
-
-# - Works with cmdstanr::CmdStanMCMC or rstan::stanfit
-# ================================================================
-
-
-# --- Packages --- #
+###Projection code for multi-stage salmon model###
+###Works with cmdstanr::CmdStanMCMC or rstan::stanfit###
 
 library(dplyr)
 library(ggplot2)
